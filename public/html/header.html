@@ -1,65 +1,33 @@
 {{ define "header" }}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ . }}</title>
-  <link rel="stylesheet" href="/public/css/style.css">
-  <link rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-      crossorigin="anonymous">
-</head>
-
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ . }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocas-ui/2.3.3/tocas.css">
+    <link rel="stylesheet" href="/public/css/style.css">
+  </head>
 <body>
-  <div class="wrapper">
-    <nav id="sidebar">
-      <div class="sidebar-header">
-        <h3>ShopSite</h3>
-      </div>
-    </nav>
-    <ul class="list-unstyled components">
-      <p>Heading</p>
-      <li class="active">
-        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
-          class="dropdown-toggle">Home</a>
-        <ul class="collapse list-unstyled" id="homeSubmenu">
-          <li><a href="#">Home 1</a></li>
-          <li><a href="#">Home 2</a></li>
-          <li><a href="#">Home 3</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">About</a>
-      </li>
-      <li>
-        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"
-        class="dropdown-toggle">Pages</a>
-        <ul class="collapse list-unstyled" id="pageSubmenu">
-          <li><a href="#">Page 1</a></li>
-          <li><a href="#">Page 2</a></li>
-          <li><a href="#">Page 3</a></li>
-        </ul>
-      </li>
-      <li>
-        <a href="#">Portfolio</a>
-      </li>
-      <li>
-        <a href="#">Contact</a>
-      </li>
-    </ul>
-
-
-  <div id="content">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-          <button type="button" id="sidebarCollapse" class="btn btn-info">
-              <i class="fas fa-align-left"></i>
-              <span>Toggle Sidebar</span>
-          </button>
-      </div>
-  </nav>
-  </div>
+<div class="ts static visible left sidebar vertical menu">
+  <a href="/" class="item">
+    <i class="large icons">
+      <i class="shopping basket icon"></i>
+      <i class="inverted corner pencil icon"></i> 
+    </i> Магазин карандашей
+  </a>
+   <a class="item">
+    <i class="shopping bag icon"></i> Все товары
+  </a>
+  <div class="item">Категории<div class="menu">
+    <br>
+    <a class="item">Графитовые карандаши</a>
+    <a class="item">Твердые графитовые карандаши</a>
+    <a class="item">Угольные карандаши</a>
+    <a class="item">Цветные карандаши</a>
+    <a class="item">Жирные карандаши</a>
+    <a class="item">Акварельные карандаши</a>
+  </div></div>
+  <a class="bottom item">О нас</a>
 </div>
 {{ end }}
