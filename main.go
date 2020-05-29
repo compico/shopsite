@@ -16,9 +16,9 @@ func main() {
 		ReadTimeout:  15 * time.Second,
 		WriteTimeout: 15 * time.Second,
 	}
-
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 	http.HandleFunc("/", indexHandler)
+	http.HandleFunc("/products", productsHandler)
 
 	err := server.ListenAndServe()
 	if err != nil {

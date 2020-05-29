@@ -1,0 +1,21 @@
+.hero-carousel img {
+    width: 100%;
+    height: 100%;
+}
+.slider-container img {
+    object-fit: cover;
+    width: 80%;
+    height: 100%;
+}
+.catalog { 
+    margin-top: 1em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.card{ 
+    margin-right: 1em;
+    margin-bottom: 1em;
+    max-width: 300px;
+    max-height: 20%;
+}

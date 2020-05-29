@@ -3,31 +3,70 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ . }}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocas-ui/2.3.3/tocas.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+    <link rel="stylesheet" href="/public/css/bulma-carousel.min.css">
     <link rel="stylesheet" href="/public/css/style.css">
   </head>
 <body>
-<div class="ts static visible left sidebar vertical menu">
-  <a href="/" class="item">
-    <i class="large icons">
-      <i class="shopping basket icon"></i>
-      <i class="inverted corner pencil icon"></i> 
-    </i> Магазин карандашей
-  </a>
-   <a class="item">
-    <i class="shopping bag icon"></i> Все товары
-  </a>
-  <div class="item">Категории<div class="menu">
-    <br>
-    <a class="item">Графитовые карандаши</a>
-    <a class="item">Твердые графитовые карандаши</a>
-    <a class="item">Угольные карандаши</a>
-    <a class="item">Цветные карандаши</a>
-    <a class="item">Жирные карандаши</a>
-    <a class="item">Акварельные карандаши</a>
-  </div></div>
-  <a class="bottom item">О нас</a>
-</div>
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <span class="icon">
+        <i class="fas fa-store"></i> 
+      </span>&nbsp;Магазин карандашей
+    </a>
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="/products">
+        Все товары
+      </a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Категории
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item">
+            Графитовые
+          </a>
+          <a class="navbar-item">
+            Твердые графитовые
+          </a>
+          <a class="navbar-item">
+            Механические
+          </a>
+          <a class="navbar-item">
+            Угольные
+          </a>
+          <a class="navbar-item">
+            Цветные
+          </a>
+          <a class="navbar-item">
+            Жирные
+          </a>
+          <a class="navbar-item">
+            Акварельные
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <a class="button">
+            О нас
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
 {{ end }}
