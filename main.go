@@ -19,6 +19,7 @@ func main() {
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/products", productsHandler)
+	http.HandleFunc("/product", productHandler)
 
 	err := server.ListenAndServe()
 	if err != nil {

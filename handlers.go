@@ -28,7 +28,6 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func productsHandler(w http.ResponseWriter, r *http.Request) {
-
 	data := getProducts()
 	t, err := template.ParseFiles(htmldir+"header.html", htmldir+"products.html", htmldir+"footer.html")
 	if err != nil {
@@ -46,5 +45,23 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, "Exec footer error: %v", err.Error())
 	}
+}
 
+func productHandler(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles(htmldir+"header.html", htmldir+"product.html", htmldir+"footer.html")
+	if err != nil {
+		fmt.Fprintf(w, "Parsing error: %v", err.Error())
+	}
+	err = t.ExecuteTemplate(w, "header", "Product - Shop")
+	if err != nil {
+		fmt.Fprintf(w, "Exec header error: %v", err.Error())
+	}
+	err = t.ExecuteTemplate(w, "product", nil)
+	if err != nil {
+		fmt.Fprintf(w, "Exec products error: %v", err.Error())
+	}
+	err = t.ExecuteTemplate(w, "footer", nil)
+	if err != nil {
+		fmt.Fprintf(w, "Exec footer error: %v", err.Error())
+	}
 }
