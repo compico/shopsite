@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 )
 
-//
 var htmldir string = "./public/html/"
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
@@ -28,7 +28,6 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func productsHandler(w http.ResponseWriter, r *http.Request) {
-	data := getTestProducts()
 	t, err := template.ParseFiles(htmldir+"header.html", htmldir+"products.html", htmldir+"footer.html")
 	if err != nil {
 		fmt.Fprintf(w, "Parsing error: %v", err.Error())
@@ -37,7 +36,7 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, "Exec header error: %v", err.Error())
 	}
-	err = t.ExecuteTemplate(w, "products", data)
+	err = t.ExecuteTemplate(w, "products", nil)
 	if err != nil {
 		fmt.Fprintf(w, "Exec products error: %v", err.Error())
 	}
@@ -80,4 +79,56 @@ func productHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, "Exec footer error: %v", err.Error())
 	}
+}
+
+func addproductHandler(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles(htmldir+"header.html", htmldir+"addproduct.html", htmldir+"footer.html")
+	if err != nil {
+		fmt.Fprintf(w, "Parsing error: %v", err.Error())
+	}
+	err = t.ExecuteTemplate(w, "header", "Добавить товар - Shop")
+	if err != nil {
+		fmt.Fprintf(w, "Exec header error: %v", err.Error())
+	}
+	err = t.ExecuteTemplate(w, "addproduct", nil)
+	if err != nil {
+		fmt.Fprintf(w, "Exec addproduct error: %v", err.Error())
+	}
+	err = t.ExecuteTemplate(w, "footer", nil)
+	if err != nil {
+		fmt.Fprintf(w, "Exec footer error: %v", err.Error())
+	}
+}
+
+func addproductMethod(w http.ResponseWriter, r *http.Request) {
+
+	var (
+		image       = r.FormValue("image")
+		name        = r.FormValue("name")
+		description = r.FormValue("description")
+		category    = r.FormValue("category")
+		categoryid  = r.FormValue("categoryid")
+	)
+
+	if image == "" || name == "" || description == "" ||
+		category == "" || categoryid == "" {
+		fmt.Fprintln(w, "Error to add : values is empty")
+	}
+
+	price, err := strconv.ParseFloat(r.FormValue("price"), 64)
+	if err != nil {
+		fmt.Fprintf(w, "Error to add, because wrong price: %v", err.Error())
+		return
+	}
+	p := Product{
+		Image:       image,
+		Name:        name,
+		Price:       price,
+		Description: description,
+		Category:    category,
+		CategoryId:  categoryid,
+		Reviews:     Reviews{nil},
+		IsDeleted:   false,
+	}
+	ProductsList.addProduct(p)
 }

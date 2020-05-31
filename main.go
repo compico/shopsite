@@ -6,20 +6,28 @@ import (
 	"time"
 )
 
+var (
+	port         = ":8080"
+	ProductsList = initProducts()
+)
+
 func init() {
-	fmt.Println("Starting server http://localhost:8080/")
+	fmt.Println("Starting server http://localhost" + port + "/")
 }
 
 func main() {
 	server := &http.Server{
-		Addr:         ":8080",
+		Addr:         port,
 		ReadTimeout:  15 * time.Second,
 		WriteTimeout: 15 * time.Second,
 	}
+
 	http.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/products", productsHandler)
 	http.HandleFunc("/product", productHandler)
+	http.HandleFunc("/addproduct", addproductHandler)
+	http.HandleFunc("/api/addproduct", addproductMethod)
 
 	err := server.ListenAndServe()
 	if err != nil {

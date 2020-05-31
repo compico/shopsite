@@ -2,29 +2,30 @@ package main
 
 type (
 	Products struct {
-		Product []Product
+		Product []Product `json:"products"`
 	}
 
 	Reviews struct {
-		Review []Review
+		Review []Review `json:"reviews"`
 	}
 
 	Product struct {
-		Image       string
-		Name        string
-		Price       float32
-		Description string
-		Category    string
-		CategoryId  string
-		Reviews     Reviews
+		Image       string  `json:"image"`
+		Name        string  `json:"name"`
+		Price       float64 `json:"price"`
+		Description string  `json:"description"`
+		Category    string  `json:"category"`
+		CategoryId  string  `json:"categoryid"`
+		Reviews     Reviews `json:"reviews"`
+		IsDeleted   bool    `json:"isdeleted"`
 	}
 
 	Review struct {
-		Author        string
-		Virtues       string
-		Disadvantages string
-		ReviewText    string
-		Stars         float32
+		Author        string  `json:"author"`
+		Virtues       string  `json:"vertues"`
+		Disadvantages string  `json:"disadvantages"`
+		ReviewText    string  `json:"reviewtext"`
+		Stars         float64 `json:"stars"`
 	}
 )
 
@@ -34,28 +35,28 @@ func initProducts() *Products {
 	return products
 }
 
-func (products *Products) addProduct() {
-
+func (products *Products) addProduct(p Product) {
+	products.Product = append(products.Product, p)
 }
 
-func getTestProduct() Product {
-	product := Product{
-		Image:       "public/image/products/1.jpg",
-		Name:        "Карандаш",
-		Price:       6.40,
-		Description: "Мягкий графитовый карандаш",
-		Category:    "Графитовые",
-		CategoryId:  "grafitovie",
+func (products *Products) delProduct(id int) {
+	products.Product[id] = Product{
+		Image:       "",
+		Name:        "",
+		Price:       0,
+		Description: "",
+		Category:    "",
+		CategoryId:  "",
+		Reviews:     Reviews{nil},
+		IsDeleted:   true,
 	}
-	return product
 }
 
-func getTestProducts() Products {
-	var products Products
-	products.Product = make([]Product, 15)
+func (products *Products) editProduct(id int, p Product) {
+	products.Product[id] = p
+}
 
-	for i := 0; i < len(products.Product); i++ {
-		products.Product[i] = getTestProduct()
-	}
-	return products
+func (products *Products) getProductById(id int) Product {
+	x := products.Product[id]
+	return x
 }
