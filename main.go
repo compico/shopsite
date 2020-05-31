@@ -8,7 +8,7 @@ import (
 
 var (
 	port         = ":8080"
-	ProductsList = initProducts()
+	productsList = initProducts()
 )
 
 func init() {

@@ -103,19 +103,20 @@ func addproductHandler(w http.ResponseWriter, r *http.Request) {
 func addproductMethod(w http.ResponseWriter, r *http.Request) {
 
 	var (
-		image       = r.FormValue("image")
-		name        = r.FormValue("name")
-		description = r.FormValue("description")
-		category    = r.FormValue("category")
-		categoryid  = r.FormValue("categoryid")
+		image       = r.PostFormValue("image")
+		name        = r.PostFormValue("name")
+		description = r.PostFormValue("description")
+		category    = r.PostFormValue("category")
+		categoryid  = r.PostFormValue("categoryid")
 	)
 
 	if image == "" || name == "" || description == "" ||
 		category == "" || categoryid == "" {
-		fmt.Fprintln(w, "Error to add : values is empty")
+		fmt.Fprintln(w, "Error to add: values is empty")
+		return
 	}
 
-	price, err := strconv.ParseFloat(r.FormValue("price"), 64)
+	price, err := strconv.ParseFloat(r.PostFormValue("price"), 64)
 	if err != nil {
 		fmt.Fprintf(w, "Error to add, because wrong price: %v", err.Error())
 		return
@@ -130,5 +131,6 @@ func addproductMethod(w http.ResponseWriter, r *http.Request) {
 		Reviews:     Reviews{nil},
 		IsDeleted:   false,
 	}
-	ProductsList.addProduct(p)
+	productsList.addProduct(p)
+	http.Redirect(w, r, "/", http.StatusFound)
 }

@@ -4,11 +4,9 @@ type (
 	Products struct {
 		Product []Product `json:"products"`
 	}
-
 	Reviews struct {
 		Review []Review `json:"reviews"`
 	}
-
 	Product struct {
 		Image       string  `json:"image"`
 		Name        string  `json:"name"`
@@ -18,8 +16,8 @@ type (
 		CategoryId  string  `json:"categoryid"`
 		Reviews     Reviews `json:"reviews"`
 		IsDeleted   bool    `json:"isdeleted"`
+		ID          int     `json:"id"`
 	}
-
 	Review struct {
 		Author        string  `json:"author"`
 		Virtues       string  `json:"vertues"`
@@ -29,6 +27,8 @@ type (
 	}
 )
 
+var globalid = 0
+
 func initProducts() *Products {
 	products := new(Products)
 	products.Product = make([]Product, 0)
@@ -36,23 +36,17 @@ func initProducts() *Products {
 }
 
 func (products *Products) addProduct(p Product) {
+	p.ID = globalid
 	products.Product = append(products.Product, p)
+
 }
 
 func (products *Products) delProduct(id int) {
-	products.Product[id] = Product{
-		Image:       "",
-		Name:        "",
-		Price:       0,
-		Description: "",
-		Category:    "",
-		CategoryId:  "",
-		Reviews:     Reviews{nil},
-		IsDeleted:   true,
-	}
+	products.Product[id].IsDeleted = true
 }
 
 func (products *Products) editProduct(id int, p Product) {
+	p.ID = id
 	products.Product[id] = p
 }
 
