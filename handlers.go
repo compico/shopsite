@@ -107,7 +107,7 @@ func addproductMethod(w http.ResponseWriter, r *http.Request) {
 		name        = r.PostFormValue("name")
 		description = r.PostFormValue("description")
 		category    = r.PostFormValue("category")
-		categoryid  = r.PostFormValue("categoryid")
+		categoryid  = transcript(category)
 	)
 
 	if image == "" || name == "" || description == "" ||
