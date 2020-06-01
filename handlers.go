@@ -28,6 +28,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func productsHandler(w http.ResponseWriter, r *http.Request) {
+	data := productsList
 	t, err := template.ParseFiles(htmldir+"header.html", htmldir+"products.html", htmldir+"footer.html")
 	if err != nil {
 		fmt.Fprintf(w, "Parsing error: %v", err.Error())
@@ -36,7 +37,7 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintf(w, "Exec header error: %v", err.Error())
 	}
-	err = t.ExecuteTemplate(w, "products", nil)
+	err = t.ExecuteTemplate(w, "products", data)
 	if err != nil {
 		fmt.Fprintf(w, "Exec products error: %v", err.Error())
 	}
@@ -47,13 +48,18 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func productHandler(w http.ResponseWriter, r *http.Request) {
+	var (
+		id          int
+		data        Product
+		fine        = true
+		haveproduct = true
+	)
 	t, err := template.ParseFiles(
 		htmldir+"header.html",
 		htmldir+"product.html",
 		htmldir+"footer.html",
 		htmldir+"error.html",
 	)
-	fine := true
 	if err != nil {
 		fmt.Fprintf(w, "Parsing error: %v", err.Error())
 	}
@@ -68,18 +74,31 @@ func productHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, "Exec errror tempalte error: %v", err.Error())
 		}
 		fine = false
+		haveproduct = false
 	}
-	id, err := strconv.Atoi(product)
-	if err != nil {
-		err = t.ExecuteTemplate(w, "error", "Conv error:"+err.Error())
+
+	if product != "" {
+		id, err = strconv.Atoi(product)
 		if err != nil {
-			fmt.Fprintf(w, "Exec errror tempalte error: %v", err.Error())
+			err = t.ExecuteTemplate(w, "error", "Conv error:"+err.Error())
+			if err != nil {
+				fmt.Fprintf(w, "Exec errror tempalte error: %v", err.Error())
+			}
+			fine = false
 		}
-		fine = false
 	}
-	data, err := productsList.getProductById(id)
-	if err != nil {
-		err = t.ExecuteTemplate(w, "error", err)
+	if haveproduct {
+		data, err = productsList.getProductById(id)
+		if err != nil {
+			err = t.ExecuteTemplate(w, "error", err)
+			if err != nil {
+				fmt.Fprintf(w, "Exec errror tempalte error: %v", err.Error())
+			}
+			fine = false
+		}
+	}
+	if data.IsDeleted {
+		err = t.ExecuteTemplate(w, "error", "Товар удалён!")
 		if err != nil {
 			fmt.Fprintf(w, "Exec errror tempalte error: %v", err.Error())
 		}
@@ -117,20 +136,17 @@ func addproductHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func addproductMethod(w http.ResponseWriter, r *http.Request) {
-
 	var (
 		image       = r.PostFormValue("image")
 		name        = r.PostFormValue("name")
 		description = r.PostFormValue("description")
 		category    = r.PostFormValue("category")
 	)
-
 	if image == "" || name == "" || description == "" ||
 		category == "" {
 		fmt.Fprintln(w, "Error to add: values is empty")
 		return
 	}
-
 	price, err := strconv.ParseFloat(r.PostFormValue("price"), 64)
 	if err != nil {
 		fmt.Fprintf(w, "Error to add, because wrong price: %v", err.Error())
