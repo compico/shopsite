@@ -1,5 +1,7 @@
 package main
 
+import "errors"
+
 type (
 	Products struct {
 		Product []Product `json:"products"`
@@ -10,6 +12,7 @@ type (
 	Product struct {
 		Image       string  `json:"image"`
 		Name        string  `json:"name"`
+		NameId      string  `json:"nameid"`
 		Price       float64 `json:"price"`
 		Description string  `json:"description"`
 		Category    string  `json:"category"`
@@ -28,6 +31,7 @@ type (
 )
 
 var globalid = 0
+var hashmap = make(map[string]int)
 
 func initProducts() *Products {
 	products := new(Products)
@@ -37,6 +41,10 @@ func initProducts() *Products {
 
 func (products *Products) addProduct(p Product) {
 	p.ID = globalid
+	p.NameId = string(globalid) + "_" + transcript(p.Name)
+	p.CategoryId = transcript(p.Category)
+	hashmap[p.NameId] = p.ID
+	globalid++
 	products.Product = append(products.Product, p)
 }
 
@@ -49,9 +57,13 @@ func (products *Products) editProduct(id int, p Product) {
 	products.Product[id] = p
 }
 
-func (products *Products) getProductById(id int) Product {
-	x := products.Product[id]
-	return x
+func (products *Products) getProductById(id int) (x Product, err error) {
+	if id > len(products.Product)-1 {
+		err = errors.New("Товар не найден!")
+		return x, err
+	}
+	x = products.Product[id]
+	return x, nil
 }
 
 func (products *Products) getMultipleItems(count int) Products {

@@ -65,12 +65,28 @@ func productHandler(w http.ResponseWriter, r *http.Request) {
 	if product == "" {
 		err = t.ExecuteTemplate(w, "error", "Товар не найден!")
 		if err != nil {
-			fmt.Fprintf(w, "Exec products error: %v", err.Error())
+			fmt.Fprintf(w, "Exec errror tempalte error: %v", err.Error())
+		}
+		fine = false
+	}
+	id, err := strconv.Atoi(product)
+	if err != nil {
+		err = t.ExecuteTemplate(w, "error", "Conv error:"+err.Error())
+		if err != nil {
+			fmt.Fprintf(w, "Exec errror tempalte error: %v", err.Error())
+		}
+		fine = false
+	}
+	data, err := productsList.getProductById(id)
+	if err != nil {
+		err = t.ExecuteTemplate(w, "error", err)
+		if err != nil {
+			fmt.Fprintf(w, "Exec errror tempalte error: %v", err.Error())
 		}
 		fine = false
 	}
 	if fine {
-		err = t.ExecuteTemplate(w, "product", nil)
+		err = t.ExecuteTemplate(w, "product", data)
 		if err != nil {
 			fmt.Fprintf(w, "Exec products error: %v", err.Error())
 		}
@@ -107,11 +123,10 @@ func addproductMethod(w http.ResponseWriter, r *http.Request) {
 		name        = r.PostFormValue("name")
 		description = r.PostFormValue("description")
 		category    = r.PostFormValue("category")
-		categoryid  = transcript(category)
 	)
 
 	if image == "" || name == "" || description == "" ||
-		category == "" || categoryid == "" {
+		category == "" {
 		fmt.Fprintln(w, "Error to add: values is empty")
 		return
 	}
@@ -127,7 +142,6 @@ func addproductMethod(w http.ResponseWriter, r *http.Request) {
 		Price:       price,
 		Description: description,
 		Category:    category,
-		CategoryId:  categoryid,
 		Reviews:     Reviews{nil},
 		IsDeleted:   false,
 	}
