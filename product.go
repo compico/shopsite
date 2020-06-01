@@ -38,7 +38,6 @@ func initProducts() *Products {
 func (products *Products) addProduct(p Product) {
 	p.ID = globalid
 	products.Product = append(products.Product, p)
-
 }
 
 func (products *Products) delProduct(id int) {
@@ -53,4 +52,14 @@ func (products *Products) editProduct(id int, p Product) {
 func (products *Products) getProductById(id int) Product {
 	x := products.Product[id]
 	return x
+}
+
+func (products *Products) getMultipleItems(count int) Products {
+	if x := len(products.Product); x < count {
+		count = x - 1
+	}
+	result := Products{
+		products.Product[:count],
+	}
+	return result
 }
