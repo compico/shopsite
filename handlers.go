@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 var htmldir string = "./public/html/"
@@ -141,13 +142,15 @@ func addproductMethod(w http.ResponseWriter, r *http.Request) {
 		name        = r.PostFormValue("name")
 		description = r.PostFormValue("description")
 		category    = r.PostFormValue("category")
+		priceval    = r.PostFormValue("price")
 	)
+	priceval = strings.ReplaceAll(priceval, ",", ".")
 	if image == "" || name == "" || description == "" ||
 		category == "" {
 		fmt.Fprintln(w, "Error to add: values is empty")
 		return
 	}
-	price, err := strconv.ParseFloat(r.PostFormValue("price"), 64)
+	price, err := strconv.ParseFloat(priceval, 64)
 	if err != nil {
 		fmt.Fprintf(w, "Error to add, because wrong price: %v", err.Error())
 		return

@@ -1,6 +1,9 @@
 package main
 
-import "errors"
+import (
+	"errors"
+	"strconv"
+)
 
 type (
 	Products struct {
@@ -15,6 +18,7 @@ type (
 		NameId      string  `json:"nameid"`
 		Price       float64 `json:"price"`
 		Description string  `json:"description"`
+		ShortDesc   string  `json:"shortdesc"`
 		Category    string  `json:"category"`
 		CategoryId  string  `json:"categoryid"`
 		Reviews     Reviews `json:"reviews"`
@@ -41,8 +45,9 @@ func initProducts() *Products {
 
 func (products *Products) addProduct(p Product) {
 	p.ID = globalid
-	p.NameId = string(globalid) + "_" + transcript(p.Name)
+	p.NameId = strconv.Itoa(globalid) + "_" + transcript(p.Name)
 	p.CategoryId = transcript(p.Category)
+	p.ShortDesc = shorteningDescription(p.Description)
 	hashmap[p.NameId] = p.ID
 	globalid++
 	products.Product = append(products.Product, p)
@@ -73,5 +78,14 @@ func (products *Products) getMultipleItems(count int) Products {
 	result := Products{
 		products.Product[:count],
 	}
+	return result
+}
+
+func shorteningDescription(x string) string {
+	i := 90
+	if i > len(x) {
+		i = len(x)
+	}
+	result := x[:i] + "..."
 	return result
 }

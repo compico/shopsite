@@ -1,7 +1,28 @@
 {{ define "product" }}
 <div class="container is-fluid">
     <div class="notification">
-
+        <div class="columns">
+            <div class="column">
+                <figure class="image">
+                    <img src="{{ .Image }}" alt="">
+                </figure>
+            </div>
+            <div class="column">
+                <p>{{ .Image }}</p>
+                <p>{{ .Name }}</p>
+                <p>{{ .NameId }}</p>
+                <p>{{ .Price }}</p>
+                <p>{{ .Description }}</p>
+                <p>{{ .ShortDesc }}</p>
+                <p>{{ .Category }}</p>
+                <p>{{ .CategoryId }}</p>
+                <p>{{ .Reviews }}</p>
+                <p>{{ .IsDeleted }}</p>
+                <p>{{ .ID }}</p>
+            </div>
+            <div class="column"></div>
+            <div class="column"></div>
+        </div>
     </div>
 </div>
 {{ end }}
