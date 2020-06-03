@@ -28,6 +28,7 @@ func main() {
 	http.HandleFunc("/product", productHandler)
 	http.HandleFunc("/addproduct", addproductHandler)
 	http.HandleFunc("/api/addproduct", addproductMethod)
+	http.HandleFunc("/api/addtestproducts", addtestproducts)
 
 	err := server.ListenAndServe()
 	if err != nil {

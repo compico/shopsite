@@ -13,12 +13,23 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
-.card{ 
-    margin-right: 1em;
-    margin-bottom: 1em;
-    max-width: 300px;
-    max-height: 20%;
+.product-card {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin: 1em;
+    max-width: 17em;
+    height: 28em;
 }
-.media{
-    
+.product-image {
+    object-fit: scale-down;
+}
+
+.product-content{
+    margin: 1em;
+}
+
+.product-description{
+    width: 240px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

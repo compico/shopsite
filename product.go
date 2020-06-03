@@ -18,7 +18,6 @@ type (
 		NameId      string  `json:"nameid"`
 		Price       float64 `json:"price"`
 		Description string  `json:"description"`
-		ShortDesc   string  `json:"shortdesc"`
 		Category    string  `json:"category"`
 		CategoryId  string  `json:"categoryid"`
 		Reviews     Reviews `json:"reviews"`
@@ -32,6 +31,11 @@ type (
 		ReviewText    string  `json:"reviewtext"`
 		Stars         float64 `json:"stars"`
 	}
+	Category struct {
+		RuName string
+		IDs    []int
+	}
+	Categorys map[string]Category
 )
 
 var globalid = 0
@@ -47,7 +51,7 @@ func (products *Products) addProduct(p Product) {
 	p.ID = globalid
 	p.NameId = strconv.Itoa(globalid) + "_" + transcript(p.Name)
 	p.CategoryId = transcript(p.Category)
-	p.ShortDesc = shorteningDescription(p.Description)
+	p.Price = round(p.Price, 0.05)
 	hashmap[p.NameId] = p.ID
 	globalid++
 	products.Product = append(products.Product, p)
@@ -78,14 +82,5 @@ func (products *Products) getMultipleItems(count int) Products {
 	result := Products{
 		products.Product[:count],
 	}
-	return result
-}
-
-func shorteningDescription(x string) string {
-	i := 90
-	if i > len(x) {
-		i = len(x)
-	}
-	result := x[:i] + "..."
 	return result
 }

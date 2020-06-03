@@ -27,26 +27,22 @@
     <div class="column">
       <div class="catalog">
         {{ range .Product }}
-        <div class="card">
+        <div class="product-card">
           <a href="product?product={{ .ID }}">
-            <div class="card-image">
-              <figure class="image is-4by3">
-                <img
-                  src="{{ .Image }}"
-                  alt="Карандаш">
-              </figure>
+            <div class="product-image">
+              <img src="{{ .Image }}" alt="Карандаш">
             </div>
           </a>
-          <div class="card-content">
+          <div class="product-content">
             <div class="media">
-              <!-- <a class="toproduct" href="product?product={{ .ID }}"> -->
-              <div class="media-content">
-                <p class="title is-4">{{ .Name }}</p>
-              </div>
-              <!-- </a> -->
+              <a class="toproduct" href="product?product={{ .ID }}">
+                <div class="media-content">
+                  <p class="title is-4">{{ .Name }}</p>
+                </div>
+              </a>
             </div>
-            <div class="content">
-              <p>{{ .ShortDesc}}</p>
+            <div>
+              <p class="product-description">{{ .Description }}</p>
             </div>
             <footer class="card-footer">
               <p class="card-footer-item">
@@ -55,7 +51,8 @@
                   &nbsp;<i class="fas fa-ruble-sign"></i>
                 </span>
               </p>
-              <p class="card-footer-item"><button class="button">Купить</button></p>
+              <p class="card-footer-item"><button class="button"
+                  href="product?product={{ .ID }}">Купить</button></p>
             </footer>
           </div>
         </div>

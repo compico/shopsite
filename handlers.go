@@ -167,3 +167,54 @@ func addproductMethod(w http.ResponseWriter, r *http.Request) {
 	productsList.addProduct(p)
 	http.Redirect(w, r, "/", http.StatusFound)
 }
+
+func addtestproducts(w http.ResponseWriter, r *http.Request) {
+	testproducts := []Product{
+		{
+			Image:       "/public/image/testimage/1.jpg",
+			Name:        "Пастельный карандаш",
+			Category:    "Пастельные карандаши",
+			Description: "Карандаш, пастельный, коричневого цвета",
+			Price:       5.428,
+		},
+		{
+			Image:       "/public/image/testimage/2.jpg",
+			Name:        "Графитовый карандаш",
+			Category:    "Графитовые карандаши",
+			Description: "Графитовый карандаш, твёрдый",
+			Price:       7.228,
+		},
+		{
+			Image:       "/public/image/testimage/3.jpg",
+			Name:        "Графитовый карандаш",
+			Category:    "Графитовые карандаши",
+			Description: "Графитовый карандаш, мягкий",
+			Price:       2.7,
+		},
+		{
+			Image:       "/public/image/testimage/4.jpg",
+			Name:        "Набор цветных карандашей",
+			Category:    "Восковые карандаши",
+			Description: "Цветные карандаши, с восковым ядром. Набор 10 шт.",
+			Price:       54.2,
+		},
+		{
+			Image:       "/public/image/testimage/5.jpg",
+			Name:        "Набор цветных карандашей",
+			Category:    "Восковые карандаши",
+			Description: "Цветные карандаши, с восковым ядром. Набор 16 шт.",
+			Price:       80,
+		},
+		{
+			Image:       "/public/image/testimage/6.jpg",
+			Name:        "Набор графитовых карандашей",
+			Category:    "Графитовые карандаши",
+			Description: "Набор графитовых карандашей. Разной жёсткости. Набор 10 шт.",
+			Price:       24.523,
+		},
+	}
+	for i := 0; i < len(testproducts); i++ {
+		productsList.addProduct(testproducts[i])
+	}
+	http.Redirect(w, r, "/", http.StatusFound)
+}

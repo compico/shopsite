@@ -1,10 +1,15 @@
 package main
 
 import (
+	"math"
 	"strings"
 
 	iuliia "github.com/mehanizm/iuliia-go"
 )
+
+func round(x, unit float64) float64 {
+	return math.Round(x/unit) * unit
+}
 
 func transcript(s string) string {
 	if s[0] == ' ' {
