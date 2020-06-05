@@ -1,27 +1,35 @@
 {{ define "product" }}
 <div class="container is-fluid">
-    <div class="notification">
-        <div class="columns">
-            <div class="column">
-                <figure class="image">
-                    <img src="{{ .Image }}" alt="">
-                </figure>
-            </div>
-            <div class="column">
-                <p>{{ .Image }}</p>
-                <p>{{ .Name }}</p>
-                <p>{{ .NameId }}</p>
-                <p>{{ .Price }}</p>
-                <p>{{ .Description }}</p>
-                <p>{{ .Category }}</p>
-                <p>{{ .CategoryId }}</p>
-                <p>{{ .Reviews }}</p>
-                <p>{{ .IsDeleted }}</p>
-                <p>{{ .ID }}</p>
-            </div>
-            <div class="column"></div>
-            <div class="column"></div>
-        </div>
-    </div>
+  <nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+      <li><a href="/products">Все товары</a></li>
+      <li><a href="/products?category={{ .CategoryId }}">{{ .Category }}</a></li>
+    </ul>
+  </nav>
 </div>
+<div class="box">
+  <article class="media">
+    <div class="media-left">
+      <div class="box-image">
+        <img src="{{ .Image }}" alt="Image">
+      </div>
+    </div>
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <strong>{{ .Name }}</strong>
+          <br>
+          <p>{{ .Description }}</p>
+        </p>
+      </div>
+    </div>
+    <div class="media-content">
+      <div class="content">
+        <strong>Цена:</strong>
+        {{ .Price }} <span><i class="fas fa-ruble-sign"></i></span>
+      </div>
+    </div>
+  </article>
+</div>
+<p>{{ .Reviews }}</p>
 {{ end }}

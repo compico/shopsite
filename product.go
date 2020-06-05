@@ -31,15 +31,12 @@ type (
 		ReviewText    string  `json:"reviewtext"`
 		Stars         float64 `json:"stars"`
 	}
-	Category struct {
-		RuName string
-		IDs    []int
-	}
-	Categorys map[string]Category
 )
 
 var globalid = 0
 var hashmap = make(map[string]int)
+var categoryids = make(map[string][]int)
+var categorname = make(map[string]string)
 
 func initProducts() *Products {
 	products := new(Products)
@@ -52,6 +49,8 @@ func (products *Products) addProduct(p Product) {
 	p.NameId = strconv.Itoa(globalid) + "_" + transcript(p.Name)
 	p.CategoryId = transcript(p.Category)
 	p.Price = round(p.Price, 0.05)
+	categoryids[p.CategoryId] = append(categoryids[p.CategoryId], p.ID)
+	categorname[p.CategoryId] = p.Category
 	hashmap[p.NameId] = p.ID
 	globalid++
 	products.Product = append(products.Product, p)
@@ -73,6 +72,19 @@ func (products *Products) getProductById(id int) (x Product, err error) {
 	}
 	x = products.Product[id]
 	return x, nil
+}
+
+func (products *Products) getProductsByCategory(categoryid string) (Products, error) {
+	var p Products
+	p.Product = make([]Product, 0)
+	for i := 0; i < len(categoryids[categoryid]); i++ {
+		x, err := productsList.getProductById(categoryids[categoryid][i])
+		if err != nil {
+			return p, err
+		}
+		p.Product = append(p.Product, x)
+	}
+	return p, nil
 }
 
 func (products *Products) getMultipleItems(count int) Products {

@@ -29,7 +29,21 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func productsHandler(w http.ResponseWriter, r *http.Request) {
-	data := productsList
+	categoryform := r.FormValue("category")
+	var (
+		data Products
+		err  error
+	)
+	if categoryform == "" {
+		data = *productsList
+	}
+	if categoryform != "" {
+		data, err = productsList.getProductsByCategory(categoryform)
+		if err != nil {
+			fmt.Fprintf(w, "Get products error: %v", err.Error())
+		}
+	}
+
 	t, err := template.ParseFiles(htmldir+"header.html", htmldir+"products.html", htmldir+"footer.html")
 	if err != nil {
 		fmt.Fprintf(w, "Parsing error: %v", err.Error())
@@ -165,7 +179,7 @@ func addproductMethod(w http.ResponseWriter, r *http.Request) {
 		IsDeleted:   false,
 	}
 	productsList.addProduct(p)
-	http.Redirect(w, r, "/", http.StatusFound)
+	http.Redirect(w, r, "/product?product="+strconv.Itoa(globalid-1), http.StatusFound)
 }
 
 func addtestproducts(w http.ResponseWriter, r *http.Request) {
@@ -216,5 +230,5 @@ func addtestproducts(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < len(testproducts); i++ {
 		productsList.addProduct(testproducts[i])
 	}
-	http.Redirect(w, r, "/", http.StatusFound)
+	http.Redirect(w, r, "/products", http.StatusFound)
 }

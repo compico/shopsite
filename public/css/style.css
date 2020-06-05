@@ -22,14 +22,19 @@
 .product-image {
     object-fit: scale-down;
 }
-
 .product-content{
     margin: 1em;
 }
-
 .product-description{
     width: 240px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+.box {
+    margin: 1em;
+    padding: 0px;
+}
+.box-image {
+    width: 360px;
 }

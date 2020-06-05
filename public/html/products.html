@@ -44,15 +44,16 @@
             <div>
               <p class="product-description">{{ .Description }}</p>
             </div>
+            <p class="item">
+              {{ .Price }}
+              <span class="icon has-text-success">
+                &nbsp;<i class="fas fa-ruble-sign"></i>
+              </span>
+            </p>
             <footer class="card-footer">
-              <p class="card-footer-item">
-                {{ .Price }}
-                <span class="icon has-text-success">
-                  &nbsp;<i class="fas fa-ruble-sign"></i>
-                </span>
-              </p>
-              <p class="card-footer-item"><button class="button"
-                  href="product?product={{ .ID }}">Купить</button></p>
+              <p class="card-footer-item"><a class="button"
+                  href="product?product={{ .ID }}">О товаре</a></p>
+              <p class="card-footer-item"><a class="button">В корзину</a></p>
             </footer>
           </div>
         </div>
