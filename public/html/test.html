@@ -1,0 +1,36 @@
+{{ define "test" }}
+<div class="container is-fluid">
+    <br>
+    <div id="file-js-example" class="file has-name">
+        <form action="/api/testfile" method="POST"
+            enctype="multipart/form-data">
+            <label class="file-label">
+                <input class="file-input" type="file" name="files" accept=".jpg,
+                    .jpeg, .png" multiple>
+                <span class="file-cta">
+                    <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                        Выбрать файл
+                    </span>
+                </span>
+                <span class="file-name">
+                    Файл не выбран
+                </span>
+            </label>
+            <br>
+            <input type="submit" value="upload">
+        </form>
+    </div>
+</div>
+<script>
+    const fileInput = document.querySelector('#file-js-example input[type=file]');
+    fileInput.onchange = () => {
+      if (fileInput.files.length > 0) {
+        const fileName = document.querySelector('#file-js-example .file-name');
+        fileName.textContent = fileInput.files[0].name;
+      }
+    }
+</script>
+{{ end }}
