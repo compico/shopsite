@@ -42,6 +42,7 @@ func main() {
 }
 
 func addtestfilehandler(w http.ResponseWriter, r *http.Request) {
+
 	t, err := template.ParseFiles(htmldir+"header.html", htmldir+"test.html", htmldir+"footer.html")
 	if err != nil {
 		fmt.Fprintf(w, "Parsing error: %v", err.Error())
@@ -72,7 +73,6 @@ func testfilehandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer files.Close()
-
 	tempFile, err := ioutil.TempFile("./public/image/png", "*.png")
 	if err != nil {
 		fmt.Fprintf(w, "TempFile error: %v", err.Error())

@@ -1,0 +1,21 @@
+{{ define "leftmenu" }}
+<div class="container is-fluid">
+    <div class="columns">
+        <div class="column is-one-fifth">
+            <aside class="menu">
+                <p class="menu-label">
+                    Фильтры
+                </p>
+                <ul class="menu-list">
+                    <li>
+                        <a class="is-active">Категории</a>
+                        <ul>
+                            {{ range .Category }}
+                            <li><a href="/products?category={{ .Id }}">{{ .Name }}</a></li>
+                            {{ end }}
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+        {{ end }}

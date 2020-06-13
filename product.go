@@ -12,6 +12,9 @@ type (
 	Reviews struct {
 		Review []Review `json:"reviews"`
 	}
+	Categorys struct {
+		Category []Category
+	}
 	Product struct {
 		Image       string  `json:"image"`
 		Name        string  `json:"name"`
@@ -30,6 +33,10 @@ type (
 		Disadvantages string  `json:"disadvantages"`
 		ReviewText    string  `json:"reviewtext"`
 		Stars         float64 `json:"stars"`
+	}
+	Category struct {
+		Id   string
+		Name string
 	}
 )
 
@@ -95,4 +102,17 @@ func (products *Products) getMultipleItems(count int) Products {
 		products.Product[:count],
 	}
 	return result
+}
+
+func getAllCategorys() Categorys {
+	var x Categorys
+	x.Category = make([]Category, 0)
+	for k, v := range categorname {
+		t := Category{
+			Id:   k,
+			Name: v,
+		}
+		x.Category = append(x.Category, t)
+	}
+	return x
 }

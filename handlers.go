@@ -43,14 +43,17 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, "Get products error: %v", err.Error())
 		}
 	}
-
-	t, err := template.ParseFiles(htmldir+"header.html", htmldir+"products.html", htmldir+"footer.html")
+	t, err := template.ParseFiles(htmldir+"header.html", htmldir+"leftmenu.html", htmldir+"products.html", htmldir+"footer.html")
 	if err != nil {
 		fmt.Fprintf(w, "Parsing error: %v", err.Error())
 	}
 	err = t.ExecuteTemplate(w, "header", "Products - Shop")
 	if err != nil {
 		fmt.Fprintf(w, "Exec header error: %v", err.Error())
+	}
+	err = t.ExecuteTemplate(w, "leftmenu", getAllCategorys())
+	if err != nil {
+		fmt.Fprintf(w, "Exec leftmenu error: %v", err.Error())
 	}
 	err = t.ExecuteTemplate(w, "products", data)
 	if err != nil {
@@ -69,6 +72,7 @@ func productHandler(w http.ResponseWriter, r *http.Request) {
 		fine        = true
 		haveproduct = true
 	)
+
 	t, err := template.ParseFiles(
 		htmldir+"header.html",
 		htmldir+"product.html",
