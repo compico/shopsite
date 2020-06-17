@@ -155,15 +155,19 @@ func addproductHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func addproductMethod(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseMultipartForm(32 << 20)
+	if err != nil {
+		fmt.Fprintf(w, "ParseMultipartForm error: %v", err.Error())
+		return
+	}
 	var (
-		image       = r.PostFormValue("image")
 		name        = r.PostFormValue("name")
 		description = r.PostFormValue("description")
 		category    = r.PostFormValue("category")
 		priceval    = r.PostFormValue("price")
 	)
 	priceval = strings.ReplaceAll(priceval, ",", ".")
-	if image == "" || name == "" || description == "" ||
+	if name == "" || description == "" ||
 		category == "" {
 		fmt.Fprintln(w, "Error to add: values is empty")
 		return
@@ -173,14 +177,21 @@ func addproductMethod(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Error to add, because wrong price: %v", err.Error())
 		return
 	}
-	p := Product{
-		Image:       image,
+	var p = Product{
 		Name:        name,
 		Price:       price,
 		Description: description,
 		Category:    category,
-		Reviews:     Reviews{nil},
 		IsDeleted:   false,
+	}
+	for _, v := range r.MultipartForm.File {
+		for _, v := range v {
+			name, err := fileupload(name, globalid, *v)
+			if err != nil {
+				fmt.Fprintf(w, "Exec footer error: %v", err.Error())
+			}
+			p.Images = append(p.Images, name)
+		}
 	}
 	productsList.addProduct(p)
 	http.Redirect(w, r, "/product?product="+strconv.Itoa(globalid-1), http.StatusFound)
@@ -189,42 +200,42 @@ func addproductMethod(w http.ResponseWriter, r *http.Request) {
 func addtestproducts(w http.ResponseWriter, r *http.Request) {
 	testproducts := []Product{
 		{
-			Image:       "/public/image/testimage/1.jpg",
+			Images:      []string{"/public/image/testimage/1.jpg"},
 			Name:        "Пастельный карандаш",
 			Category:    "Пастельные карандаши",
 			Description: "Карандаш, пастельный, коричневого цвета",
 			Price:       5.428,
 		},
 		{
-			Image:       "/public/image/testimage/2.jpg",
+			Images:      []string{"/public/image/testimage/2.jpg"},
 			Name:        "Графитовый карандаш",
 			Category:    "Графитовые карандаши",
 			Description: "Графитовый карандаш, твёрдый",
 			Price:       7.228,
 		},
 		{
-			Image:       "/public/image/testimage/3.jpg",
+			Images:      []string{"/public/image/testimage/3.jpg"},
 			Name:        "Графитовый карандаш",
 			Category:    "Графитовые карандаши",
 			Description: "Графитовый карандаш, мягкий",
 			Price:       2.7,
 		},
 		{
-			Image:       "/public/image/testimage/4.jpg",
+			Images:      []string{"/public/image/testimage/4.jpg"},
 			Name:        "Набор цветных карандашей",
 			Category:    "Восковые карандаши",
 			Description: "Цветные карандаши, с восковым ядром. Набор 10 шт.",
 			Price:       54.2,
 		},
 		{
-			Image:       "/public/image/testimage/5.jpg",
+			Images:      []string{"/public/image/testimage/5.jpg"},
 			Name:        "Набор цветных карандашей",
 			Category:    "Восковые карандаши",
 			Description: "Цветные карандаши, с восковым ядром. Набор 16 шт.",
 			Price:       80,
 		},
 		{
-			Image:       "/public/image/testimage/6.jpg",
+			Images:      []string{"/public/image/testimage/6.jpg"},
 			Name:        "Набор графитовых карандашей",
 			Category:    "Графитовые карандаши",
 			Description: "Набор графитовых карандашей. Разной жёсткости. Набор 10 шт.",

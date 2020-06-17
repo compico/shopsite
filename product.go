@@ -16,16 +16,16 @@ type (
 		Category []Category
 	}
 	Product struct {
-		Image       string  `json:"image"`
-		Name        string  `json:"name"`
-		NameId      string  `json:"nameid"`
-		Price       float64 `json:"price"`
-		Description string  `json:"description"`
-		Category    string  `json:"category"`
-		CategoryId  string  `json:"categoryid"`
-		Reviews     Reviews `json:"reviews"`
-		IsDeleted   bool    `json:"isdeleted"`
-		ID          int     `json:"id"`
+		Images      []string `json:"images"`
+		Name        string   `json:"name"`
+		NameId      string   `json:"nameid"`
+		Price       float64  `json:"price"`
+		Description string   `json:"description"`
+		Category    string   `json:"category"`
+		CategoryId  string   `json:"categoryid"`
+		Reviews     Reviews  `json:"reviews"`
+		IsDeleted   bool     `json:"isdeleted"`
+		ID          int      `json:"id"`
 	}
 	Review struct {
 		Author        string  `json:"author"`

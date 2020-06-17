@@ -1,18 +1,36 @@
 {{ define "addproduct" }}
-<div class="container">
-  <div class="notification">
-    <form action="/api/addproduct" method="POST">
-      <div class="field">
-        <label class="label">Изображение</label>
-        <div class="control">
-          <input class="input" type="text"
-            placeholder="public/image/products/1.jpg" name="image">
-        </div>
-      </div>
+<section class="section asd1">
+  <div class="form-box">
+    <form action="/api/addproduct" method="POST" enctype="multipart/form-data">
       <div class="field">
         <label class="label">Название продукта</label>
         <div class="control">
           <input class="input" type="text" placeholder="Карандаш" name="name">
+        </div>
+      </div>
+      <div class="field">
+        <div class="custom-file-container" data-upload-id="fileupload">
+          <!-- Head добавления изображений -->
+          <div class="file-upload-head">
+            <label class="label-file">
+              Добавить файлы &nbsp;
+            </label>
+            <a href="javascript:void(0)" class="delete" id="delete" title="Очистить список">
+              <span class="icon is-small">
+                <i class="fas fa-times-circle"></i>
+              </span>
+            </a>
+          </div>
+          <!-- Body добавления изображений -->
+          <label class="custom-file-container__custom-file">
+            <input type="file" class="custom-file-container__custom-file__custom-file-input"
+              accept="image/jpeg, image/pjpeg, image/png" multiple aria-label="Choose File" name="file">
+            <!-- <input type="hidden" name="MAX_FILE_SIZE" value="10485760" /> -->
+            <span class="custom-file-container__custom-file__custom-file-control"></span>
+          </label>
+          <!-- Body предпоказ изображений -->
+          <div class="custom-file-container__image-preview">
+          </div>
         </div>
       </div>
       <div class="field">
@@ -30,8 +48,7 @@
       <div class="field">
         <label class="label">Категория</label>
         <div class="control">
-          <input class="input" type="text" placeholder="Графитовые карандаши"
-            name="category">
+          <input class="input" type="text" placeholder="Графитовые карандаши" name="category">
         </div>
       </div>
       <div class="field">
@@ -43,5 +60,26 @@
       </div>
     </form>
   </div>
-</div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.js"></script>
+<script src="public/js/file-upload-with-preview.min.js"></script>
+<script>
+  const deletebutton = document.querySelector(".delete")
+  let fileupload = new FileUploadWithPreview('fileupload', {
+    showDeleteButtonOnImages: true,
+    clearButton: deletebutton,
+    text: {
+      chooseFile: 'Выберите файл(ы)...',
+      browse: 'Открыть',
+      selectedCount: 'выбранных файлов',
+    },
+  })
+
+  fileupload.clearButton = deletebutton
+  window.addEventListener('fileUploadWithPreview:imageDeleted', function (e) {
+    console.log(e.detail.currentFileCount)
+    console.log(e.detail.cachedFileArray)
+  })
+</script>
 {{ end }}
