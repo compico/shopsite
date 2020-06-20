@@ -197,6 +197,25 @@ func addproductMethod(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/product?product="+strconv.Itoa(globalid-1), http.StatusFound)
 }
 
+//id , author, vertues, disadvantages, reviewtext , stars
+func addReviewHandler(w http.ResponseWriter, r *http.Request) {
+	var (
+		sID           = r.FormValue("id")
+		author        = r.FormValue("author")
+		vertues       = r.FormValue("vertues")
+		disadvantages = r.FormValue("disadvantages")
+		reviewtext    = r.FormValue("reviewtext")
+		stars         = r.FormValue("stars")
+	)
+	id, err := strconv.Atoi(sID)
+	if err != nil {
+		fmt.Fprintf(w, "Error atoi:%v<br>%v", err,
+			"Внутренняя ошибка или кто ты патался в id ввести текст а не число")
+	}
+	err = productsList.Product[id].addReview(author, vertues,
+		disadvantages, reviewtext, stars)
+}
+
 func addtestproducts(w http.ResponseWriter, r *http.Request) {
 	testproducts := []Product{
 		{

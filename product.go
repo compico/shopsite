@@ -9,9 +9,6 @@ type (
 	Products struct {
 		Product []Product `json:"products"`
 	}
-	Reviews struct {
-		Review []Review `json:"reviews"`
-	}
 	Categorys struct {
 		Category []Category
 	}
@@ -23,7 +20,7 @@ type (
 		Description string   `json:"description"`
 		Category    string   `json:"category"`
 		CategoryId  string   `json:"categoryid"`
-		Reviews     Reviews  `json:"reviews"`
+		Reviews     []Review `json:"reviews"`
 		IsDeleted   bool     `json:"isdeleted"`
 		ID          int      `json:"id"`
 	}
@@ -102,6 +99,19 @@ func (products *Products) getMultipleItems(count int) Products {
 		products.Product[:count],
 	}
 	return result
+}
+
+func (product *Product) addReview(author, vertues, disadvantages, reviewtext, stars string) (err error) {
+	r := Review{}
+	r.Stars, err = strconv.ParseFloat(stars, 64)
+	if err != nil {
+		return err
+	}
+	r.Author = author
+	r.Virtues = vertues
+	r.Disadvantages = disadvantages
+	r.ReviewText = reviewtext
+	product.Reviews = append(product.Reviews, r)
 }
 
 func getAllCategorys() Categorys {

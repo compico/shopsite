@@ -75,24 +75,21 @@
   overflow-y: auto;
 }
 
-.owl-item {
-  position: relative;
+.section.review {
+  padding: 1em;
 }
 
-.owl-prev, .owl-next {
-  position: absolute;
-  top: 0px;
-  text-align: center;
-  outline: none;
-  top: 23%;
+.stars {
+  display: flex;
 }
 
-.owl-prev {
-  left: 0px;
+.stars img {
+  width: 50px;
+  padding-right: 3px;
 }
 
-.owl-next {
-  right: 0px;
+.media-content {
+  overflow-x: unset;
 }
 
 @media (max-width: 726px) {

@@ -5,6 +5,7 @@
     <ul>
       <li><a href="/products">Все товары</a></li>
       <li><a href="/products?category={{ .CategoryId }}">{{ .Category }}</a></li>
+      <li><a>{{ .Name }}</a></li>
     </ul>
   </nav>
 </div>
@@ -36,6 +37,94 @@
     </div>
   </article>
 </div>
+<section class="section review">
+  <div class="tile is-ancestor">
+    <div class="tile is-parent">
+      <article class="tile is-child box">
+        <section class="section review">
+          <p class="subtitle">Общий рейтинг продукта</p>
+          <div class="content">
+            <p>5/5</p>
+          </div>
+        </section>
+      </article>
+    </div>
+    <div class="tile is-parent is-8">
+      <article class="tile is-child box">
+        <section class="section review">
+          <p class="subtitle">Добавить отзыв</p>
+          <form action="api/addreview" method="post">
+            <input type="hidden" value="{{ .ID }}" name="id">
+            <div class="field">
+              <label class="label">Имя:</label>
+              <input class="input" type="text" name="author">
+            </div>
+            <div class="field">
+              <label class="label">Достоинства:</label>
+              <textarea class="textarea" name="vertues"></textarea>
+            </div>
+            <div class="field">
+              <label class="label">Недостатки:</label>
+              <textarea class="textarea" name="disadvantages"></textarea>
+            </div>
+            <div class="field">
+              <label class="label">Отзыв:</label>
+              <textarea class="textarea" name="reviewtext"></textarea>
+            </div>
+            <div class="field">
+              <label class="label">Оценка:</label>
+              <div class="stars">
+                <div class="star1"><img src="/public/image/svg/star2.svg"></div>
+                <div class="star2"><img src="/public/image/svg/star2.svg"></div>
+                <div class="star3"><img src="/public/image/svg/star2.svg"></div>
+                <div class="star4"><img src="/public/image/svg/star2.svg"></div>
+                <div class="star5"><img src="/public/image/svg/star2.svg"></div>
+                <input type="hidden" name="stars" value="0" id="stars">
+              </div>
+            </div>
+            <div class="field"><input class="button" type="submit"></div>
+          </form>
+          <div class="content">
+            <p>Content. Reviews.</p>
+          </div>
+        </section>
+      </article>
+    </div>
+  </div>
+  </div>
+  <div>
+    <p>Debug product</p>
+    <div class="table-container">
+      <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+        <tr>
+          <td>Name</td>
+          <td>Images</td>
+          <td>NameId</td>
+          <td>Price</td>
+          <td>Description</td>
+          <td>Category</td>
+          <td>CategoryId</td>
+          <td>Reviews</td>
+          <td>IsDeleted</td>
+          <td>ID</td>
+        </tr>
+        <tr>
+          <td>{{ .Name }}</td>
+          <td>{{ range .Images }} <p> {{ . }} </p> <br> {{ end }}</td>
+          <td>{{ .NameId }}</td>
+          <td>{{ .Price }}</td>
+          <td>{{ .Description }}</td>
+          <td>{{ .Category }}</td>
+          <td>{{ .CategoryId }}</td>
+          <td>{{ .Reviews }}</td>
+          <td>{{ .IsDeleted }}</td>
+          <td>{{ .ID }}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</section>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
+<script src="public/js/stars-rating.js"></script>
 {{ end }}
