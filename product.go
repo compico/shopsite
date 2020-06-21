@@ -112,6 +112,7 @@ func (product *Product) addReview(author, vertues, disadvantages, reviewtext, st
 	r.Disadvantages = disadvantages
 	r.ReviewText = reviewtext
 	product.Reviews = append(product.Reviews, r)
+	return nil
 }
 
 func getAllCategorys() Categorys {
