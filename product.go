@@ -13,16 +13,18 @@ type (
 		Category []Category
 	}
 	Product struct {
-		Images      []string `json:"images"`
-		Name        string   `json:"name"`
-		NameId      string   `json:"nameid"`
-		Price       float64  `json:"price"`
-		Description string   `json:"description"`
-		Category    string   `json:"category"`
-		CategoryId  string   `json:"categoryid"`
-		Reviews     []Review `json:"reviews"`
-		IsDeleted   bool     `json:"isdeleted"`
-		ID          int      `json:"id"`
+		Images        []string `json:"images"`
+		Name          string   `json:"name"`
+		NameId        string   `json:"nameid"`
+		Price         float64  `json:"price"`
+		Description   string   `json:"description"`
+		Category      string   `json:"category"`
+		CategoryId    string   `json:"categoryid"`
+		Reviews       []Review `json:"reviews"`
+		Views         int      `json:"views"`
+		AverageRating float64  `json:"averagerating"`
+		IsDeleted     bool     `json:"isdeleted"`
+		ID            int      `json:"id"`
 	}
 	Review struct {
 		Author        string  `json:"author"`
@@ -93,7 +95,8 @@ func (products *Products) getProductsByCategory(categoryid string) (Products, er
 
 func (products *Products) getMultipleItems(count int) Products {
 	if x := len(products.Product); x < count {
-		count = x - 1
+		difference := (count - x) - 1
+		count -= difference
 	}
 	result := Products{
 		products.Product[:count],
@@ -101,11 +104,18 @@ func (products *Products) getMultipleItems(count int) Products {
 	return result
 }
 
+func (product *Product) addView() {
+	product.Views++
+}
+
 func (product *Product) addReview(author, vertues, disadvantages, reviewtext, stars string) (err error) {
 	r := Review{}
 	r.Stars, err = strconv.ParseFloat(stars, 64)
 	if err != nil {
 		return err
+	}
+	if r.Stars > 5 || r.Stars <= 0 {
+		return errors.New("Неправильное количество звёзд.")
 	}
 	r.Author = author
 	r.Virtues = vertues

@@ -1,0 +1,40 @@
+{{ define "productlist" }}
+<div class="container is-fluid">
+  <div class="columns">
+    <div class="column is-one-fifth">
+      {{template "admin"}}
+    </div>
+    <div class="column">
+      <div class="content">
+        <h1>Все товары</h2>
+          <div class="buttons has-addons is-right">
+            <a class="button" href="/api/addtestproducts">Добавить тестовые товары</a>
+            <a class="button" href="/addproduct">Добавить товар</a>
+          </div>
+          <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Название товара</th>
+                <th>Категория</th>
+                <th>Цена</th>
+                <th>Удалено?</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{ range .Product }}
+              <tr>
+                <td>{{ .ID }}</td>
+                <td><a href="/product?product={{ .ID }}">{{ .Name }}</a></td>
+                <td>{{ .Category }}</td>
+                <td>{{ .Price }}</td>
+                <td>{{ .IsDeleted }}</td>
+              </tr>
+              {{ end }}
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}

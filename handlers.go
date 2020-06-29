@@ -115,6 +115,7 @@ func productHandler(w http.ResponseWriter, r *http.Request) {
 			}
 			fine = false
 		}
+		productsList.Product[id].addView()
 	}
 	if data.IsDeleted {
 		err = t.ExecuteTemplate(w, "error", "Товар удалён!")
@@ -194,10 +195,9 @@ func addproductMethod(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	productsList.addProduct(p)
-	http.Redirect(w, r, "/product?product="+strconv.Itoa(globalid-1), http.StatusFound)
+	http.Redirect(w, r, r.Referer(), http.StatusFound)
 }
 
-//id , author, vertues, disadvantages, reviewtext , stars
 func addReviewHandler(w http.ResponseWriter, r *http.Request) {
 	var (
 		sID           = r.FormValue("id")
@@ -210,10 +210,22 @@ func addReviewHandler(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(sID)
 	if err != nil {
 		fmt.Fprintf(w, "Error atoi:%v<br>%v", err,
-			"Внутренняя ошибка или кто ты патался в id ввести текст а не число")
+			"Внутренняя ошибка или кто то пытался в id ввести текст а не число.")
+	}
+	if len(productsList.Product)-1 < id {
+		fmt.Fprintf(w, "Error: %v", "такого продукта нет.")
+	}
+	if sID == "" || author == "" || reviewtext == "" || stars == "" {
+		fmt.Fprintf(w, "Error empty values:%v",
+			`ID или автор или текст отзыва или количество звёзд - не указано. <br> Попробуйте заново добавить отзыв`)
 	}
 	err = productsList.Product[id].addReview(author, vertues,
 		disadvantages, reviewtext, stars)
+	if err != nil {
+		fmt.Fprintf(w, "Err addReview method: %v<br>%v", err,
+			"Внутренняя ошибка или кто то пытался в stars отправить направильное число.")
+	}
+	http.Redirect(w, r, "/product?product="+sID, http.StatusFound)
 }
 
 func addtestproducts(w http.ResponseWriter, r *http.Request) {
@@ -264,5 +276,5 @@ func addtestproducts(w http.ResponseWriter, r *http.Request) {
 	for i := 0; i < len(testproducts); i++ {
 		productsList.addProduct(testproducts[i])
 	}
-	http.Redirect(w, r, "/products", http.StatusFound)
+	http.Redirect(w, r, r.Referer(), http.StatusFound)
 }
