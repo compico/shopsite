@@ -4,7 +4,7 @@ import (
 	"math"
 	"strings"
 
-	iuliia "github.com/mehanizm/iuliia-go"
+	"github.com/mehanizm/iuliia-go"
 )
 
 func round(x, unit float64) float64 {
