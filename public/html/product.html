@@ -1,131 +1,140 @@
 {{ define "product" }}
+{{ template "header" .Config }}
+{{ if ne .Error "" }}
+{{ template "error" .Error }}
+{{ else }}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
 <div class="container is-fluid">
   <nav class="breadcrumb" aria-label="breadcrumbs">
     <ul>
       <li><a href="/products">Все товары</a></li>
-      <li><a href="/products?category={{ .CategoryId }}">{{ .Category }}</a></li>
-      <li><a>{{ .Name }}</a></li>
+      <li><a href="/products?category={{ .Data.CategoryId }}">{{ .Data.Category }}</a></li>
+      <li><a>{{ .Data.Name }}</a></li>
     </ul>
   </nav>
 </div>
-<div class="box">
-  <article class="media">
-    <div class="media-left">
-      <div class="box-image">
-        <div class="fotorama" data-allowfullscreen="true" data-nav="thumbs">
-          {{range .Images}}
-          <img src="{{ . }}">
-          {{ end }}
+<div class="container">
+  <div class="box">
+    <article class="media">
+      <div class="media-left">
+        <div class="box-image">
+          <div class="fotorama" data-allowfullscreen="true" data-nav="thumbs">
+            {{range .Data.Images}}
+            <img src="{{ . }}">
+            {{ end }}
+          </div>
         </div>
       </div>
-    </div>
-    <div class="media-content">
-      <div class="content">
-        <p>
-          <strong>{{ .Name }}</strong>
-          <br>
-        <p>{{ .Description }}</p>
-        </p>
+      <div class="media-content">
+        <div class="content">
+          <p>
+            <strong>{{ .Data.Name }}</strong>
+            <br>
+          <p>{{ .Data.Description }}</p>
+          </p>
+        </div>
       </div>
-    </div>
-    <div class="media-content">
-      <div class="content">
-        <strong>Цена:</strong>
-        {{ .Price }} <span><i class="fas fa-ruble-sign"></i></span>
+      <div class="media-content">
+        <div class="content">
+          <strong>Цена:</strong>
+          {{ .Data.Price }} <span><i class="fas fa-ruble-sign"></i></span>
+        </div>
       </div>
-    </div>
-  </article>
-</div>
-<section class="section review">
-  <div class="tile is-ancestor">
-    <div class="tile is-parent">
-      <article class="tile is-child box">
-        <section class="section review">
-          <p class="subtitle">Общий рейтинг продукта</p>
-          <div class="content">
-            <p>5/5</p>
-          </div>
-        </section>
-      </article>
-    </div>
-    <div class="tile is-parent is-8">
-      <article class="tile is-child box">
-        <section class="section review">
-          <p class="subtitle">Добавить отзыв</p>
-          <form action="api/addreview" method="post">
-            <input type="hidden" value="{{ .ID }}" name="id">
-            <div class="field">
-              <label class="label">Имя:</label>
-              <input class="input" type="text" name="author">
+    </article>
+  </div>
+  <section class="section review">
+    <div class="tile is-ancestor">
+      <div class="tile is-parent">
+        <article class="tile is-child box">
+          <section class="section review">
+            <p class="subtitle">Общий рейтинг продукта</p>
+            <div class="content">
+              <p>5/5</p>
             </div>
-            <div class="field">
-              <label class="label">Достоинства:</label>
-              <textarea class="textarea" name="vertues"></textarea>
-            </div>
-            <div class="field">
-              <label class="label">Недостатки:</label>
-              <textarea class="textarea" name="disadvantages"></textarea>
-            </div>
-            <div class="field">
-              <label class="label">Отзыв:</label>
-              <textarea class="textarea" name="reviewtext"></textarea>
-            </div>
-            <div class="field">
-              <label class="label">Оценка:</label>
-              <div class="stars">
-                <div class="star1"><img src="/public/image/svg/star1.svg"></div>
-                <div class="star2"><img src="/public/image/svg/star1.svg"></div>
-                <div class="star3"><img src="/public/image/svg/star1.svg"></div>
-                <div class="star4"><img src="/public/image/svg/star1.svg"></div>
-                <div class="star5"><img src="/public/image/svg/star1.svg"></div>
-                <input type="hidden" name="stars" value="0" id="stars">
+          </section>
+        </article>
+      </div>
+      <div class="tile is-parent is-8">
+        <article class="tile is-child box">
+          <section class="section review">
+            <p class="subtitle">Добавить отзыв</p>
+            <form action="api/addreview" method="post">
+              <input type="hidden" value="{{ .Data.ID }}" name="id">
+              <div class="field">
+                <label class="label">Имя:</label>
+                <input class="input" type="text" name="author">
               </div>
+              <div class="field">
+                <label class="label">Достоинства:</label>
+                <textarea class="textarea" name="vertues"></textarea>
+              </div>
+              <div class="field">
+                <label class="label">Недостатки:</label>
+                <textarea class="textarea" name="disadvantages"></textarea>
+              </div>
+              <div class="field">
+                <label class="label">Отзыв:</label>
+                <textarea class="textarea" name="reviewtext"></textarea>
+              </div>
+              <div class="field">
+                <label class="label">Оценка:</label>
+                <div class="stars">
+                  <div class="star1"><img src="/public/image/svg/star1.svg"></div>
+                  <div class="star2"><img src="/public/image/svg/star1.svg"></div>
+                  <div class="star3"><img src="/public/image/svg/star1.svg"></div>
+                  <div class="star4"><img src="/public/image/svg/star1.svg"></div>
+                  <div class="star5"><img src="/public/image/svg/star1.svg"></div>
+                  <input type="hidden" name="stars" value="0" id="stars">
+                </div>
+              </div>
+              <div class="field"><input class="button" value="Отправить отзыв" id="submit-button" type="submit"
+                  disabled>
+              </div>
+            </form>
+            <div class="content">
+              <p>Content. Reviews.</p>
             </div>
-            <div class="field"><input class="button" value="Отправить отзыв" id="submit-button" type="submit" disabled>
-            </div>
-          </form>
-          <div class="content">
-            <p>Content. Reviews.</p>
-          </div>
-        </section>
-      </article>
+          </section>
+        </article>
+      </div>
     </div>
+</div>
+</div>
+<div>
+  <p>Debug product</p>
+  <div class="table-container">
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+      <tr>
+        <td>Name</td>
+        <td>Images</td>
+        <td>NameId</td>
+        <td>Price</td>
+        <td>Description</td>
+        <td>Category</td>
+        <td>CategoryId</td>
+        <td>Reviews</td>
+        <td>IsDeleted</td>
+        <td>ID</td>
+      </tr>
+      <tr>
+        <td>{{ .Data.Name }}</td>
+        <td>{{ range .Data.Images }} <p> {{ . }} </p> <br> {{ end }}</td>
+        <td>{{ .Data.NameId }}</td>
+        <td>{{ .Data.Price }}</td>
+        <td>{{ .Data.Description }}</td>
+        <td>{{ .Data.Category }}</td>
+        <td>{{ .Data.CategoryId }}</td>
+        <td>{{ .Data.Reviews }}</td>
+        <td>{{ .Data.IsDeleted }}</td>
+        <td>{{ .Data.ID }}</td>
+      </tr>
+    </table>
   </div>
-  </div>
-  <div>
-    <p>Debug product</p>
-    <div class="table-container">
-      <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-        <tr>
-          <td>Name</td>
-          <td>Images</td>
-          <td>NameId</td>
-          <td>Price</td>
-          <td>Description</td>
-          <td>Category</td>
-          <td>CategoryId</td>
-          <td>Reviews</td>
-          <td>IsDeleted</td>
-          <td>ID</td>
-        </tr>
-        <tr>
-          <td>{{ .Name }}</td>
-          <td>{{ range .Images }} <p> {{ . }} </p> <br> {{ end }}</td>
-          <td>{{ .NameId }}</td>
-          <td>{{ .Price }}</td>
-          <td>{{ .Description }}</td>
-          <td>{{ .Category }}</td>
-          <td>{{ .CategoryId }}</td>
-          <td>{{ .Reviews }}</td>
-          <td>{{ .IsDeleted }}</td>
-          <td>{{ .ID }}</td>
-        </tr>
-      </table>
-    </div>
-  </div>
+</div>
 </section>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
 <script src="public/js/stars-rating.js"></script>
+{{ end }}
+{{ template "footer" }}
 {{ end }}

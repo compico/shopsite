@@ -10,22 +10,16 @@ func adminDashboard(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles(
 		htmldir+"header.html",
 		htmldir+"admin.html",
+		htmldir+"dashboard.html",
 		htmldir+"footer.html",
 	)
 	if err != nil {
 		fmt.Fprintf(w, "error template read: %v", err)
 	}
-	err = t.ExecuteTemplate(w, "header", "Admin - Shopsite")
-	if err != nil {
-		fmt.Fprintf(w, "Error exec header: %v", err)
-	}
-	err = t.ExecuteTemplate(w, "admin", nil)
+	data := datah.GetDataAndChangeTitle("Admin")
+	err = t.ExecuteTemplate(w, "dashboard", data)
 	if err != nil {
 		fmt.Fprintf(w, "Error exec admin: %v", err)
-	}
-	err = t.ExecuteTemplate(w, "footer", nil)
-	if err != nil {
-		fmt.Fprintf(w, "Error exec header: %v", err)
 	}
 }
 func adminProducts(w http.ResponseWriter, r *http.Request) {
@@ -35,20 +29,13 @@ func adminProducts(w http.ResponseWriter, r *http.Request) {
 		htmldir+"productlist.html",
 		htmldir+"footer.html",
 	)
-	data := *productsList
 	if err != nil {
 		fmt.Fprintf(w, "error template read: %v", err)
 	}
-	err = t.ExecuteTemplate(w, "header", "Admin - Shop")
-	if err != nil {
-		fmt.Fprintf(w, "Error exec header: %v", err)
-	}
+	data := datah.GetDataAndChangeTitle("Admin")
+	data.Data = *productsList
 	err = t.ExecuteTemplate(w, "productlist", data)
 	if err != nil {
 		fmt.Fprintf(w, "Error exec product list: %v", err)
-	}
-	err = t.ExecuteTemplate(w, "footer", nil)
-	if err != nil {
-		fmt.Fprintf(w, "Error exec header: %v", err)
 	}
 }

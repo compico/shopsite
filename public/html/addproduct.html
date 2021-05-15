@@ -1,4 +1,5 @@
 {{ define "addproduct" }}
+{{ template "header" .Config }}
 <section class="section asd1">
   <div class="form-box">
     <form action="/api/addproduct" method="POST" enctype="multipart/form-data">
@@ -83,4 +84,5 @@
     console.log(e.detail.cachedFileArray)
   })
 </script>
+{{ template "footer" }}
 {{ end }}

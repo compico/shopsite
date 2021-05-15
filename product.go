@@ -3,6 +3,8 @@ package main
 import (
 	"errors"
 	"strconv"
+
+	"github.com/compico/shopsite/internal/data"
 )
 
 type (
@@ -72,7 +74,7 @@ func (products *Products) editProduct(id int, p Product) {
 }
 
 func (products *Products) getProductById(id int) (x Product, err error) {
-	if id > len(products.Product)-1 {
+	if id > (len(products.Product) - 1) {
 		err = errors.New("Товар не найден!")
 		return x, err
 	}
@@ -125,11 +127,11 @@ func (product *Product) addReview(author, vertues, disadvantages, reviewtext, st
 	return nil
 }
 
-func getAllCategorys() Categorys {
-	var x Categorys
-	x.Category = make([]Category, 0)
+func getAllCategorys() data.Categorys {
+	var x data.Categorys
+	x.Category = make([]data.Category, 0)
 	for k, v := range categorname {
-		t := Category{
+		t := data.Category{
 			Id:   k,
 			Name: v,
 		}

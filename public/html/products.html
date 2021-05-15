@@ -1,7 +1,9 @@
 {{ define "products" }}
+{{ template "header" .Config }}
+{{ template "leftmenu" .Categorys }}
 <div class="column">
   <div class="catalog">
-    {{ range .Product }}
+    {{ range .Data.Product }}
     <div class="product-card">
       <a href="product?product={{ .ID }}">
         <div class="product-image">
@@ -36,4 +38,5 @@
 </div>
 </div>
 </div>
+{{ template "footer" }}
 {{ end }}
