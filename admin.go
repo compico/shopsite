@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+
+	"github.com/compico/shopsite/internal/dataworker"
 )
 
 func adminDashboard(w http.ResponseWriter, r *http.Request) {
@@ -33,7 +35,7 @@ func adminProducts(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "error template read: %v", err)
 	}
 	data := datah.GetDataAndChangeTitle("Admin")
-	data.Data = *productsList
+	data.Data = *dataworker.ProductsList
 	err = t.ExecuteTemplate(w, "productlist", data)
 	if err != nil {
 		fmt.Fprintf(w, "Error exec product list: %v", err)

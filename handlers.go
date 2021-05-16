@@ -8,23 +8,25 @@ import (
 	"strings"
 
 	"github.com/compico/shopsite/internal/config"
-	"github.com/compico/shopsite/internal/data"
+	"github.com/compico/shopsite/internal/dataworker"
 )
 
-var htmldir string = "./public/html/"
-var datah = data.InitData(
-	config.Config{
-		Description: "123",
-		SiteName:    "ShopSite",
-	}, struct {
-		Data         string
-		Numbers      int
-		ProductsList *Products
-	}{
-		Data:         "testdata",
-		Numbers:      1231231231,
-		ProductsList: productsList,
-	})
+var (
+	htmldir string = "./public/html/"
+	datah          = dataworker.InitData(
+		config.Config{
+			Description: "123",
+			SiteName:    "ShopSite",
+		}, struct {
+			Data         string
+			Numbers      int
+			ProductsList *dataworker.Products
+		}{
+			Data:         "testdata",
+			Numbers:      1231231231,
+			ProductsList: dataworker.ProductsList,
+		})
+)
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles(htmldir+"index.html", htmldir+"header.html", htmldir+"footer.html")
@@ -42,10 +44,10 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	if categoryform == "" {
-		data.Data = *productsList
+		data.Data = *dataworker.ProductsList
 	}
 	if categoryform != "" {
-		data.Data, err = productsList.getProductsByCategory(categoryform)
+		data.Data, err = dataworker.ProductsList.GetProductsByCategory(categoryform)
 		if err != nil {
 			fmt.Fprintf(w, "Get products error: %v", err.Error())
 		}
@@ -86,17 +88,17 @@ func productHandler(w http.ResponseWriter, r *http.Request) {
 			data.Error = "Conv error: " + err.Error()
 		}
 	}
-	data.Data, err = productsList.getProductById(id)
+	data.Data, err = dataworker.ProductsList.GetProductById(id)
 	if err != nil {
 		data.Error = "Getting item error: " + err.Error()
-		data.Data = new(Product)
+		data.Data = new(dataworker.Product)
 	}
 
-	if id < (len(productsList.Product) - 1) {
-		if productsList.Product[id].IsDeleted {
+	if id < (len(dataworker.ProductsList.Product) - 1) {
+		if dataworker.ProductsList.Product[id].IsDeleted {
 			data.Error = "Товар удалён!"
 		}
-		productsList.Product[id].addView()
+		dataworker.ProductsList.Product[id].AddView()
 	}
 	err = t.ExecuteTemplate(w, "product", data)
 	if err != nil {
@@ -139,7 +141,7 @@ func addproductMethod(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Error to add, because wrong price: %v", err.Error())
 		return
 	}
-	var p = Product{
+	var p = dataworker.Product{
 		Name:        name,
 		Price:       price,
 		Description: description,
@@ -148,14 +150,14 @@ func addproductMethod(w http.ResponseWriter, r *http.Request) {
 	}
 	for _, v := range r.MultipartForm.File {
 		for _, v := range v {
-			name, err := fileupload(name, globalid, *v)
+			name, err := fileupload(name, dataworker.Globalid, *v)
 			if err != nil {
 				fmt.Fprintf(w, "Exec footer error: %v", err.Error())
 			}
 			p.Images = append(p.Images, name)
 		}
 	}
-	productsList.addProduct(p)
+	dataworker.ProductsList.AddProduct(p)
 	http.Redirect(w, r, r.Referer(), http.StatusFound)
 }
 
@@ -173,14 +175,14 @@ func addReviewHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Error atoi:%v<br>%v", err,
 			"Внутренняя ошибка или кто то пытался в id ввести текст, а не число.")
 	}
-	if len(productsList.Product)-1 < id {
+	if len(dataworker.ProductsList.Product)-1 < id {
 		fmt.Fprintf(w, "Error: %v", "такого продукта нет.")
 	}
 	if sID == "" || author == "" || reviewtext == "" || stars == "" {
 		fmt.Fprintf(w, "Error empty values:%v",
 			`ID или автор или текст отзыва или количество звёзд - не указано. <br> Попробуйте заново добавить отзыв`)
 	}
-	err = productsList.Product[id].addReview(author, vertues,
+	err = dataworker.ProductsList.Product[id].AddReview(author, vertues,
 		disadvantages, reviewtext, stars)
 	if err != nil {
 		fmt.Fprintf(w, "Err addReview method: %v<br>%v", err,
@@ -190,7 +192,7 @@ func addReviewHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func addtestproducts(w http.ResponseWriter, r *http.Request) {
-	testproducts := []Product{
+	testproducts := []dataworker.Product{
 		{
 			Images:      []string{"/public/image/testimage/1.jpg"},
 			Name:        "Пастельный карандаш",
@@ -232,10 +234,9 @@ func addtestproducts(w http.ResponseWriter, r *http.Request) {
 			Category:    "Графитовые карандаши",
 			Description: "Набор графитовых карандашей. Разной жёсткости. Набор 10 шт.",
 			Price:       24.523,
-		},
-	}
+		}}
 	for i := 0; i < len(testproducts); i++ {
-		productsList.addProduct(testproducts[i])
+		dataworker.ProductsList.AddProduct(testproducts[i])
 	}
 	http.Redirect(w, r, r.Referer(), http.StatusFound)
 }

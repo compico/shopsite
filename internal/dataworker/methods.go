@@ -1,4 +1,4 @@
-package data
+package dataworker
 
 import "github.com/compico/shopsite/internal/config"
 
@@ -13,4 +13,8 @@ func (d *Data) GetDataAndChangeTitle(title string) Data {
 	x := *d
 	x.Config.SetTitle(title + " - " + x.Config.SiteName)
 	return x
+}
+
+func (d *Data) AddData(data interface{}) {
+	d.Data = data
 }

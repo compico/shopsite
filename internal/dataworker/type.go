@@ -1,4 +1,4 @@
-package data
+package dataworker
 
 import "github.com/compico/shopsite/internal/config"
 
