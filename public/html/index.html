@@ -1,9 +1,9 @@
-{{ define "index" }}
+{{ define "index_handler" }}
 {{ template "header" .Config }}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
 <div class="container">
   <div class="notification">
-    Всё что написано на сайте <strong>не</strong> является правдой.
+    Всё что написано на сайте <strong>НЕ</strong> является правдой.
   </div>
   <div class="hero-body">
     <div class="container has-text-centered">
@@ -14,7 +14,7 @@
         <img src="/public/image/jpeg/4.jpg">
         <img src="/public/image/jpeg/5.jpg">
       </div>
-    </div>
+    </div>a
   </div>
   <div class="notification">{{ .Config.Description }}</div>
 </div>

@@ -18,14 +18,14 @@ type (
 	Product struct {
 		Images        []string `json:"images"`
 		Name          string   `json:"name"`
-		NameId        string   `json:"nameid"`
+		NameId        string   `json:"name_id"`
 		Price         float64  `json:"price"`
 		Description   string   `json:"description"`
 		Category      string   `json:"category"`
-		CategoryId    string   `json:"categoryid"`
+		CategoryId    string   `json:"category_id"`
 		Reviews       []Review `json:"reviews"`
 		Views         int      `json:"views"`
-		AverageRating float64  `json:"averagerating"`
+		AverageRating float64  `json:"average_rating"`
 		IsDeleted     bool     `json:"isdeleted"`
 		ID            int      `json:"id"`
 	}

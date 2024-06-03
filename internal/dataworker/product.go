@@ -14,14 +14,14 @@ func InitProducts() *Products {
 }
 
 func (products *Products) AddProduct(p Product) {
-	p.ID = Globalid
-	p.NameId = strconv.Itoa(Globalid) + "_" + utils.Transcript(p.Name)
+	p.ID = GlobalId
+	p.NameId = strconv.Itoa(GlobalId) + "_" + utils.Transcript(p.Name)
 	p.CategoryId = utils.Transcript(p.Category)
 	p.Price = utils.Round(p.Price, 0.05)
-	Categoryids[p.CategoryId] = append(Categoryids[p.CategoryId], p.ID)
-	Categorname[p.CategoryId] = p.Category
+	CategoryIds[p.CategoryId] = append(CategoryIds[p.CategoryId], p.ID)
+	CategorName[p.CategoryId] = p.Category
 	Hashmap[p.NameId] = p.ID
-	Globalid++
+	GlobalId++
 	products.Product = append(products.Product, p)
 }
 
@@ -46,8 +46,8 @@ func (products *Products) GetProductById(id int) (x Product, err error) {
 func (products *Products) GetProductsByCategory(categoryid string) (Products, error) {
 	var p Products
 	p.Product = make([]Product, 0)
-	for i := 0; i < len(Categoryids[categoryid]); i++ {
-		x, err := ProductsList.GetProductById(Categoryids[categoryid][i])
+	for i := 0; i < len(CategoryIds[categoryid]); i++ {
+		x, err := ProductsList.GetProductById(CategoryIds[categoryid][i])
 		if err != nil {
 			return p, err
 		}

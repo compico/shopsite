@@ -1,0 +1,23 @@
+---
+site_name: "Test site name"
+description: "Test description"
+title: "Test title"
+environment: "dev"
+template_path: "./web/template"
+template_extension: ".html"
+http_config:
+  addr: "0.0.0.0:8080"
+  read_timeout: "10s"
+  write_timeout: "10s"
+  static_path: "./public"
+database_config:
+  dialect: mysql
+  user: "admin"
+  password: "111111"
+  address: "localhost"
+  port: 3306
+  db_name: "app"
+  params:
+    - "charset=utf8"
+    - "parseTime=True"
+    - "loc=Local"

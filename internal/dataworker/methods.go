@@ -11,7 +11,7 @@ func InitData(conf config.Config, data interface{}) *Data {
 
 func (d *Data) GetDataAndChangeTitle(title string) Data {
 	x := *d
-	x.Config.SetTitle(title + " - " + x.Config.SiteName)
+	x.Config.SetTitle(title + " - " + x.Config.GetSiteName())
 	return x
 }
 

@@ -14,7 +14,7 @@ import (
 var (
 	htmldir string = "./public/html/"
 	datah          = dataworker.InitData(
-		config.Config{
+		&config.Impl{
 			Description: "123",
 			SiteName:    "ShopSite",
 		}, struct {
@@ -29,13 +29,13 @@ var (
 )
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles(htmldir+"index.html", htmldir+"header.html", htmldir+"footer.html")
+	t, err := template.ParseFiles(htmldir+"index_handler.html", htmldir+"header.html", htmldir+"footer.html")
 	if err != nil {
 		fmt.Fprintf(w, "Parsing error: %v", err.Error())
 	}
-	err = t.ExecuteTemplate(w, "index", datah.GetDataAndChangeTitle("Index"))
+	err = t.ExecuteTemplate(w, "index_handler", datah.GetDataAndChangeTitle("Index"))
 	if err != nil {
-		fmt.Fprintf(w, "Exec index error: %v", err.Error())
+		fmt.Fprintf(w, "Exec index_handler error: %v", err.Error())
 	}
 }
 func productsHandler(w http.ResponseWriter, r *http.Request) {
@@ -150,7 +150,7 @@ func addproductMethod(w http.ResponseWriter, r *http.Request) {
 	}
 	for _, v := range r.MultipartForm.File {
 		for _, v := range v {
-			name, err := fileupload(name, dataworker.Globalid, *v)
+			name, err := fileupload(name, dataworker.GlobalId, *v)
 			if err != nil {
 				fmt.Fprintf(w, "Exec footer error: %v", err.Error())
 			}
