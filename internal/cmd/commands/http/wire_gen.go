@@ -33,7 +33,7 @@ func InitializeApp(configPath string) (*App, error) {
 	getProducts := handler.NewGetProducts()
 	registerRoutesResult := web.RegisterRoutes(router, serverConfig, pageRender, index, getProducts)
 	databaseConfig := di.ProviderDatabaseConfig(config)
-	connectionResult, err := di.ProviderConnectToDatabase(databaseConfig)
+	connectionResult, err := di.ProviderDatabaseConnection(databaseConfig)
 	if err != nil {
 		return nil, err
 	}

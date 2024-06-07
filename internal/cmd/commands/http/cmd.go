@@ -1,11 +1,11 @@
 package http
 
 import (
+	"github.com/compico/shopsite/internal/cmd/commands"
 	"os"
 	"os/signal"
 	"syscall"
 
-	"github.com/compico/shopsite/cmd/commands"
 	"github.com/urfave/cli/v2"
 )
 

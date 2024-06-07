@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/compico/shopsite/cmd/commands"
-	_ "github.com/compico/shopsite/cmd/commands/http"
+	"github.com/compico/shopsite/internal/cmd/commands"
+	_ "github.com/compico/shopsite/internal/cmd/commands/http"
+	_ "github.com/compico/shopsite/internal/cmd/commands/migrate"
 	"github.com/urfave/cli/v2"
 	"log"
 	"os"

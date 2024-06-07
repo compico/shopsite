@@ -27,7 +27,7 @@ func InitializeApp(configPath string) (*App, error) {
 		di.ProviderServerConfig,
 		di.ProviderDatabaseConfig,
 		di.ProviderHtmlRender,
-		di.ProviderConnectToDatabase,
+		di.ProviderDatabaseConnection,
 
 		error_handler.ProviderDebugMode,
 		error_handler.NewErrorHandler,
