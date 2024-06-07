@@ -17,6 +17,8 @@ type (
 	ConnectionResult bool
 	Config           interface {
 		GetDSN() string
+		AddParams(...string)
+		GetDialect() string
 	}
 )
 
