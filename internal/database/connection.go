@@ -11,7 +11,6 @@ import (
 )
 
 var instance *gorm.DB
-var once *sync.Once
 
 type (
 	ConnectionResult bool
@@ -29,7 +28,7 @@ func NewConnection(conf Config) (*gorm.DB, error) {
 
 	var err error
 
-	once.Do(func() {
+	sync.OnceFunc(func() {
 		instance, err = gorm.Open(
 			mysql.Open(conf.GetDSN()),
 			&gorm.Config{
@@ -42,7 +41,7 @@ func NewConnection(conf Config) (*gorm.DB, error) {
 				}),
 			},
 		)
-	})
+	})()
 
 	return instance, err
 }
