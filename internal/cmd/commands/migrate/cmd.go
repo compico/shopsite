@@ -3,7 +3,7 @@ package migrate
 import (
 	"embed"
 	"github.com/compico/shopsite/internal/cmd/commands"
-	_ "github.com/compico/shopsite/internal/database/migrations"
+	_ "github.com/compico/shopsite/internal/cmd/commands/migrate/migrations"
 	"github.com/pressly/goose/v3"
 	"github.com/urfave/cli/v2"
 )

@@ -13,7 +13,7 @@ import (
 )
 
 import (
-	_ "github.com/compico/shopsite/internal/database/migrations"
+	_ "github.com/compico/shopsite/internal/cmd/commands/migrate/migrations"
 )
 
 // Injectors from wire.go:
